@@ -1,0 +1,7 @@
+@import "tailwindcss"; /* Must be line 1 */
+@variant dark (&:where(.dark, .dark *));
+
+/* Any other custom styles must come AFTER this */
+:root {
+  font-family: Inter, system-ui;
+}
