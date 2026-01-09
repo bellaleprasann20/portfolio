@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import resume from "../assets/resume.pdf";
+import resume from "../assets/Prasann_resume.pdf";
 // STEP 1: Import your image here
 import profilePic from "../assets/profileee.jpeg"; 
 
