@@ -11,7 +11,7 @@ const projects = [
     desc: "A real-time messaging platform with user authentication, instant group chats, and a fully responsive interface for mobile and desktop.",
     tech: ["React", "Node.js", "Socket.io", "MongoDB"],
     github: "https://github.com/bellaleprasann20",
-    live: "https://your-chat-app-link.vercel.app/" 
+    live: "https://chat-app-eight-sand-86.vercel.app" 
   },
   {
     title: "Airbnb Clone",
