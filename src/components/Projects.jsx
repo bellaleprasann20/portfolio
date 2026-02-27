@@ -14,12 +14,12 @@ const projects = [
     live: "https://chat-app-eight-sand-86.vercel.app" 
   },
   {
-    title: "Airbnb Clone",
+    title: "Atharv Preschool Management System",
     image: p3,
-    desc: "A full-stack vacation rental marketplace featuring property listings, booking management, and a responsive search interface.",
-    tech: ["React", "Node.js", "Express.js", "MongoDB"],
-    github: "https://github.com/bellaleprasann20",
-    live: "https://your-airbnb-link.vercel.app/" 
+    desc: "Full-stack preschool management system with admin dashboard, parent portal, Razorpay fee payments, PDF receipt generation, and automated email/SMS notifications.",
+    tech: ["React", "Node.js", "Express.js", "MongoDB", "Razorpay", "Tailwind CSS"],
+    github: "https://github.com/bellaleprasann20/ATHARV-PRESCHOOL",
+    live: "https://atharv-preschool.vercel.app"
   },
   {
     title: "Portfolio Website",
