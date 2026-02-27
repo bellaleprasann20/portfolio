@@ -1,105 +1,270 @@
 import { motion } from "framer-motion";
 import resume from "../assets/Prasann_resume.pdf";
-// STEP 1: Import your image here
-import profilePic from "../assets/profileee.jpeg"; 
+import profilePic from "../assets/profileee.jpeg";
+import { Github, Linkedin, Mail, ArrowDown } from "lucide-react";
 
 const Hero = () => {
   const containerVariants = {
-    hidden: { opacity: 0, x: -30 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { 
-        duration: 0.8, 
-        ease: "easeOut",
-        staggerChildren: 0.2,
-        delayChildren: 0.3 
-      }
-    }
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 25 },
-    visible: { 
-      opacity: 1, 
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+    },
   };
+
+  const stats = [
+    { value: "20+", label: "Projects" },
+    { value: "1+", label: "Year Exp." },
+    { value: "5+", label: "Tech Stack" },
+  ];
+
+  const socials = [
+    { icon: Github,   href: "https://github.com/bellaleprasann20",          label: "GitHub"   },
+    { icon: Linkedin, href: "https://linkedin.com/in/prasann-bellale",       label: "LinkedIn" },
+    { icon: Mail,     href: "mailto:bellaleprasann20@gmail.com",             label: "Email"    },
+  ];
 
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center bg-gray-50 dark:bg-gray-900 pt-20 overflow-hidden"
+      className="min-h-screen flex items-center relative overflow-hidden"
+      style={{ background: "#080c14" }}
     >
-      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap');
+        .syne { font-family: 'Syne', sans-serif; }
+        .inter { font-family: 'Inter', sans-serif; }
+        @keyframes grid-move { from{transform:translateY(0)} to{transform:translateY(40px)} }
+        @keyframes glow-pulse { 0%,100%{opacity:0.4} 50%{opacity:0.7} }
+        .grid-bg { animation: grid-move 8s linear infinite; }
+        .glow { animation: glow-pulse 4s ease infinite; }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+        .float { animation: float 6s ease-in-out infinite; }
+        @keyframes shimmer { from{background-position:0% 50%} to{background-position:100% 50%} }
+        .shimmer-text {
+          background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4, #6366f1);
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shimmer 4s linear infinite;
+        }
+        .glass {
+          background: rgba(255,255,255,0.04);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(255,255,255,0.08);
+        }
+        .img-ring::before {
+          content:'';
+          position:absolute;
+          inset:-3px;
+          border-radius:inherit;
+          background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+          z-index:-1;
+        }
+      `}</style>
+
+      {/* ── Animated grid background ── */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="grid-bg absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(99,102,241,0.5) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(99,102,241,0.5) 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }} />
+        {/* Glow orbs */}
+        <div className="glow absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%)" }} />
+        <div className="glow absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(6,182,212,0.1), transparent 70%)", animationDelay:"2s" }} />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 w-full grid md:grid-cols-2 gap-16 items-center py-20 relative z-10">
+
+        {/* ── LEFT ── */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
+          className="inter"
         >
-          <motion.h1 
-            variants={itemVariants}
-            className="text-5xl md:text-7xl font-extrabold text-gray-900 dark:text-white leading-tight tracking-tight"
-          >
-            Hi, I’m <span className="text-indigo-600">Prasann</span>
-          </motion.h1>
+          {/* Available badge */}
+          <motion.div variants={itemVariants} className="mb-6">
+            <span className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 text-xs font-medium"
+              style={{ color: "rgba(255,255,255,0.6)" }}>
+              <span className="w-2 h-2 rounded-full bg-emerald-400"
+                style={{ boxShadow: "0 0 8px #34d399", animation: "glow-pulse 2s infinite" }} />
+              Available for opportunities
+            </span>
+          </motion.div>
 
-          <motion.p 
-            variants={itemVariants}
-            className="mt-6 text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed"
-          >
-           MERN Full-Stack Developer specializing in MongoDB, Express.js, React, and Node.js, with a passion for building responsive, scalable, and modern web applications.
+          {/* Name */}
+          <motion.div variants={itemVariants}>
+            <p className="syne text-sm font-600 tracking-[0.3em] uppercase mb-2"
+              style={{ color: "rgba(255,255,255,0.35)" }}>
+              Full Stack Developer
+            </p>
+            <h1 className="syne font-extrabold leading-none mb-2"
+              style={{ fontSize: "clamp(3rem, 7vw, 5.5rem)", color: "#fff" }}>
+              Hi, I'm
+            </h1>
+            <h1 className="syne font-extrabold leading-none shimmer-text"
+              style={{ fontSize: "clamp(3rem, 7vw, 5.5rem)" }}>
+              Prasann
+            </h1>
+          </motion.div>
+
+          {/* Bio */}
+          <motion.p variants={itemVariants}
+            className="mt-6 text-base leading-relaxed max-w-md"
+            style={{ color: "rgba(255,255,255,0.5)", fontWeight: 300 }}>
+            MERN stack developer who builds{" "}
+            <span style={{ color: "rgba(255,255,255,0.8)", fontWeight: 500 }}>
+              production-ready web apps
+            </span>{" "}
+            — from real-time chat systems to full preschool management platforms with payment integration.
           </motion.p>
 
-          <motion.div variants={itemVariants} className="mt-10 flex flex-wrap gap-4">
+          {/* Stats */}
+          <motion.div variants={itemVariants} className="mt-8 flex gap-6">
+            {stats.map(({ value, label }) => (
+              <div key={label}>
+                <p className="syne font-bold text-2xl text-white">{value}</p>
+                <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>{label}</p>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Buttons */}
+          <motion.div variants={itemVariants} className="mt-8 flex flex-wrap gap-3">
             <motion.a
               href={resume}
               download
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-indigo-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-indigo-700 shadow-xl shadow-indigo-500/20 transition-colors"
-            >
-              Download Resume
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              className="syne font-bold px-7 py-3.5 rounded-xl text-sm text-white"
+              style={{
+                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                boxShadow: "0 8px 32px rgba(99,102,241,0.35)",
+              }}>
+              Download Resume ↓
             </motion.a>
-            
+
             <motion.a
               href="#contact"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              className="border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 px-8 py-4 rounded-xl font-semibold hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors"
-            >
-              Contact Me
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              className="syne font-bold px-7 py-3.5 rounded-xl text-sm glass"
+              style={{ color: "rgba(255,255,255,0.8)" }}>
+              Contact Me →
             </motion.a>
           </motion.div>
-        </motion.div>
 
-        {/* Profile Side */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="hidden md:block relative"
-        >
-          {/* Animated Background Blob */}
-          <div className="w-80 h-80 bg-indigo-400/20 dark:bg-indigo-600/20 rounded-full absolute -top-10 -right-10 animate-pulse blur-3xl" />
-          
-          <motion.div 
-            animate={{ y: [0, -15, 0] }} 
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="relative z-10 w-full aspect-square bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-700"
-          >
-             {/* STEP 2: The actual Image tag */}
-             <img 
-               src={profilePic} 
-               alt="Prasann - Frontend Developer" 
-               className="w-full h-full object-cover"
-             />
+          {/* Social links */}
+          <motion.div variants={itemVariants} className="mt-8 flex items-center gap-3">
+            <span className="text-xs tracking-widest uppercase"
+              style={{ color: "rgba(255,255,255,0.25)" }}>Find me on</span>
+            <div className="h-px w-8" style={{ background: "rgba(255,255,255,0.1)" }} />
+            {socials.map(({ icon: Icon, href, label }) => (
+              <motion.a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                whileHover={{ y: -3, scale: 1.1 }}
+                className="w-9 h-9 glass rounded-xl flex items-center justify-center transition-colors"
+                style={{ color: "rgba(255,255,255,0.5)" }}
+                onMouseEnter={e => e.currentTarget.style.color = "#6366f1"}
+                onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.5)"}>
+                <Icon size={16} />
+              </motion.a>
+            ))}
           </motion.div>
         </motion.div>
 
+        {/* ── RIGHT — Photo ── */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="hidden md:flex justify-center items-center relative"
+        >
+          {/* Decorative ring */}
+          <div className="absolute w-[420px] h-[420px] rounded-full border border-indigo-500/10"
+            style={{ animation: "float 8s ease-in-out infinite" }} />
+          <div className="absolute w-[360px] h-[360px] rounded-full border border-indigo-500/20"
+            style={{ animation: "float 6s ease-in-out infinite reverse" }} />
+
+          {/* Floating tag — top left */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.2 }}
+            className="absolute left-0 top-8 glass rounded-2xl px-4 py-3 z-20"
+            style={{ animation: "float 5s ease-in-out infinite" }}>
+            <p className="text-white text-xs font-bold syne">⚡ MERN Stack</p>
+            <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>Full Stack Dev</p>
+          </motion.div>
+
+          {/* Floating tag — bottom right */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.4 }}
+            className="absolute right-0 bottom-8 glass rounded-2xl px-4 py-3 z-20"
+            style={{ animation: "float 7s ease-in-out infinite 1s" }}>
+            <p className="text-white text-xs font-bold syne">🚀 Open to Work</p>
+            <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>Karnataka, India</p>
+          </motion.div>
+
+          {/* Photo */}
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="relative z-10 img-ring rounded-3xl overflow-hidden"
+            style={{
+              width: 300,
+              height: 360,
+              boxShadow: "0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,102,241,0.2)",
+            }}>
+            <img
+              src={profilePic}
+              alt="Prasann - MERN Stack Developer"
+              className="w-full h-full object-cover object-top"
+            />
+            {/* Subtle gradient overlay at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 h-24"
+              style={{ background: "linear-gradient(to top, rgba(8,12,20,0.6), transparent)" }} />
+          </motion.div>
+        </motion.div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        style={{ color: "rgba(255,255,255,0.2)" }}>
+        <span className="text-[10px] tracking-[0.2em] uppercase inter">Scroll</span>
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}>
+          <ArrowDown size={14} />
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

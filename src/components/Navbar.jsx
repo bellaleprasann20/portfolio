@@ -1,135 +1,198 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import useDarkMode from "../hooks/useDarkMode";
-import profilePic from "../assets/profilee.jpg"; 
+import { Menu, X } from "lucide-react";
+import profilePic from "../assets/profilee.jpg";
+
+const navLinks = [
+  { name: "Home",     href: "#home"     },
+  { name: "Skills",   href: "#skills"   },
+  { name: "Projects", href: "#projects" },
+  { name: "Contact",  href: "#contact"  },
+];
 
 const Navbar = () => {
-  const [dark, setDark] = useDarkMode();
-  const [isOpen, setIsOpen] = useState(false);
-  // New state to handle the image popup
-  const [isImageOpen, setIsImageOpen] = useState(false);
+  const [isOpen,    setIsOpen]    = useState(false);
+  const [isImgOpen, setIsImgOpen] = useState(false);
+  const [scrolled,  setScrolled]  = useState(false);
 
-  const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "Skills", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
-  ];
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 30);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <>
+      <style>{`
+        .syne { font-family: 'Syne', sans-serif; }
+        .nav-link {
+          position: relative;
+          color: rgba(255,255,255,0.45);
+          font-size: 0.78rem;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          transition: color 0.2s;
+          text-decoration: none;
+        }
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: -4px; left: 0;
+          width: 0; height: 1.5px;
+          background: #6366f1;
+          transition: width 0.25s ease;
+        }
+        .nav-link:hover { color: #fff; }
+        .nav-link:hover::after { width: 100%; }
+      `}</style>
+
       <motion.nav
-        initial={{ y: -80 }}
-        animate={{ y: 0 }}
-        className="fixed w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm z-50 transition-colors duration-300"
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed w-full z-50 transition-all duration-300"
+        style={{
+          background: scrolled ? "rgba(8,12,20,0.88)" : "transparent",
+          backdropFilter: scrolled ? "blur(16px)" : "none",
+          borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "none",
+        }}
       >
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+
+          {/* Logo */}
           <div className="flex items-center gap-3">
-            {/* Clickable Profile Pic */}
-            <motion.div 
-              onClick={() => setIsImageOpen(true)} // Opens the popup
+            <motion.div
+              onClick={() => setIsImgOpen(true)}
               whileTap={{ scale: 0.9 }}
-              className="md:hidden w-10 h-10 rounded-full border-2 border-indigo-600 overflow-hidden cursor-pointer"
+              className="md:hidden w-9 h-9 rounded-xl overflow-hidden cursor-pointer flex-shrink-0"
+              style={{ border: "1.5px solid rgba(99,102,241,0.5)" }}
             >
-              <img 
-                src={profilePic} 
-                alt="Prasann" 
-                className="w-full h-full object-cover"
-              />
+              <img src={profilePic} alt="Prasann" className="w-full h-full object-cover" />
             </motion.div>
 
-            <motion.h1 
-              whileHover={{ scale: 1.05 }}
-              className="text-2xl font-bold text-indigo-600 cursor-pointer"
-            >
-              Prasann
-            </motion.h1>
+            <a href="#home" className="syne font-extrabold text-white text-xl" style={{ textDecoration: "none" }}>
+              Prasann<span style={{ color: "#6366f1" }}>.</span>
+            </a>
           </div>
 
-          {/* Desktop Menu */}
-          <ul className="hidden md:flex gap-8 text-gray-700 dark:text-gray-200 font-medium">
-            {navLinks.map((link) => (
+          {/* Desktop links */}
+          <ul className="hidden md:flex items-center gap-8 list-none m-0 p-0">
+            {navLinks.map(link => (
               <li key={link.name}>
-                <a href={link.href} className="hover:text-indigo-600 transition-colors">
-                  {link.name}
-                </a>
+                <a href={link.href} className="nav-link syne">{link.name}</a>
               </li>
             ))}
           </ul>
 
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setDark(!dark)}
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:ring-2 ring-indigo-500 transition-all"
-            >
-              {dark ? "☀️" : "🌙"}
-            </button>
+          {/* Right */}
+          <div className="flex items-center gap-3">
+            <motion.a
+              href="#contact"
+              whileHover={{ scale: 1.04, y: -1 }}
+              whileTap={{ scale: 0.97 }}
+              className="hidden md:inline-flex items-center syne text-xs font-bold px-4 py-2 rounded-xl text-white"
+              style={{
+                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                boxShadow: "0 4px 16px rgba(99,102,241,0.3)",
+                textDecoration: "none",
+              }}>
+              Hire Me →
+            </motion.a>
 
-            <button 
-              className="md:hidden text-gray-700 dark:text-white"
-              onClick={() => setIsOpen(!isOpen)}
+            <button
+              className="md:hidden w-9 h-9 flex items-center justify-center rounded-xl"
+              style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.7)" }}
+              onClick={() => setIsOpen(o => !o)}
+              aria-label="Toggle menu"
             >
-              <span className="text-2xl">{isOpen ? "✕" : "☰"}</span>
+              {isOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu Dropdown */}
+        {/* Mobile dropdown */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-white dark:bg-gray-900 border-t dark:border-gray-800"
+              transition={{ duration: 0.25 }}
+              className="md:hidden overflow-hidden"
+              style={{
+                background: "rgba(8,12,20,0.97)",
+                borderTop: "1px solid rgba(255,255,255,0.06)",
+                backdropFilter: "blur(16px)",
+              }}
             >
-              <ul className="flex flex-col p-6 gap-4 text-gray-700 dark:text-gray-200">
-                {navLinks.map((link) => (
-                  <li key={link.name}>
-                    <a 
-                      href={link.href} 
+              <ul className="flex flex-col px-6 py-5 gap-4 list-none m-0 p-0 px-6 py-5">
+                {navLinks.map((link, i) => (
+                  <motion.li
+                    key={link.name}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.07 }}
+                  >
+                    <a
+                      href={link.href}
                       onClick={() => setIsOpen(false)}
-                      className="block text-lg hover:text-indigo-600 font-medium"
+                      className="syne font-bold text-base block"
+                      style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}
+                      onMouseEnter={e => e.currentTarget.style.color = "#fff"}
+                      onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.6)"}
                     >
                       {link.name}
                     </a>
-                  </li>
+                  </motion.li>
                 ))}
+                <motion.li
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.28 }}
+                >
+                  <a
+                    href="#contact"
+                    onClick={() => setIsOpen(false)}
+                    className="syne inline-flex items-center font-bold text-sm px-5 py-2.5 rounded-xl text-white mt-1"
+                    style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)", textDecoration: "none" }}>
+                    Hire Me →
+                  </a>
+                </motion.li>
               </ul>
             </motion.div>
           )}
         </AnimatePresence>
       </motion.nav>
 
-      {/* --- IMAGE OVERLAY / MODAL --- */}
+      {/* Profile image modal */}
       <AnimatePresence>
-        {isImageOpen && (
+        {isImgOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setIsImageOpen(false)} // Close when clicking background
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+            onClick={() => setIsImgOpen(false)}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(8px)" }}
           >
             <motion.div
-              initial={{ scale: 0.5, rotate: -5 }}
-              animate={{ scale: 1, rotate: 0 }}
-              exit={{ scale: 0.5, opacity: 0 }}
-              className="relative max-w-sm w-full bg-white dark:bg-gray-800 p-2 rounded-3xl shadow-2xl"
-              onClick={(e) => e.stopPropagation()} // Prevents closing when clicking the image card itself
+              initial={{ scale: 0.7, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.7, opacity: 0 }}
+              transition={{ type: "spring", damping: 20 }}
+              onClick={e => e.stopPropagation()}
+              className="relative max-w-xs w-full rounded-3xl overflow-hidden"
+              style={{ border: "1px solid rgba(255,255,255,0.1)", background: "#111827" }}
             >
-              <img 
-                src={profilePic} 
-                className="w-full rounded-2xl shadow-lg"
-                alt="Prasann Full View"
-              />
-              <div className="p-4 text-center">
-                <h3 className="text-xl font-bold dark:text-white">Prasann</h3>
-                <p className="text-indigo-600 font-medium">Full-Stack Developer</p>
-                <button 
-                  onClick={() => setIsImageOpen(false)}
-                  className="mt-4 px-6 py-2 bg-gray-100 dark:bg-gray-700 dark:text-white rounded-full text-sm font-semibold"
+              <img src={profilePic} className="w-full" alt="Prasann" />
+              <div className="p-5 text-center">
+                <p className="syne font-bold text-white text-lg">Prasann Bellale</p>
+                <p className="text-sm mt-0.5" style={{ color: "#6366f1" }}>MERN Stack Developer</p>
+                <button
+                  onClick={() => setIsImgOpen(false)}
+                  className="mt-4 px-5 py-2 rounded-xl text-xs syne font-bold"
+                  style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.6)" }}
                 >
                   Close
                 </button>
