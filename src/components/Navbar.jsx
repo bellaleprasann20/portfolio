@@ -1,25 +1,49 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import profilePic from "../assets/profilee.jpg";
 
+// Route-based links (real pages) vs section links (only present on Home).
+// Section links point to "/#id" so they work correctly from any page:
+// if you're already on Home, the browser just scrolls; if you're on
+// /projects or /contact, it navigates to Home first, then jumps to the section.
 const navLinks = [
-  { name: "Home",     href: "#home"     },
-  { name: "Skills",   href: "#skills"   },
-  { name: "Projects", href: "#projects" },
-  { name: "Contact",  href: "#contact"  },
+  { name: "Home",     href: "/",           type: "route"   },
+  { name: "Skills",   href: "/#skills",    type: "section" },
+  { name: "Journey",  href: "/#journey",   type: "section" },
+  { name: "Projects", href: "/projects",   type: "route"   },
+  { name: "Contact",  href: "/contact",    type: "route"   },
 ];
 
 const Navbar = () => {
   const [isOpen,    setIsOpen]    = useState(false);
   const [isImgOpen, setIsImgOpen] = useState(false);
   const [scrolled,  setScrolled]  = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const renderLink = (link, className, style, onClick) => {
+    if (link.type === "route") {
+      return (
+        <Link to={link.href} className={className} style={style} onClick={onClick}>
+          {link.name}
+        </Link>
+      );
+    }
+    // Section links: plain <a> so it works across route boundaries (triggers
+    // a full navigation + hash scroll when not already on Home).
+    return (
+      <a href={link.href} className={className} style={style} onClick={onClick}>
+        {link.name}
+      </a>
+    );
+  };
 
   return (
     <>
@@ -71,34 +95,34 @@ const Navbar = () => {
               <img src={profilePic} alt="Prasann" className="w-full h-full object-cover" />
             </motion.div>
 
-            <a href="#home" className="syne font-extrabold text-white text-xl" style={{ textDecoration: "none" }}>
+            <Link to="/" className="syne font-extrabold text-white text-xl" style={{ textDecoration: "none" }}>
               Prasann<span style={{ color: "#6366f1" }}>.</span>
-            </a>
+            </Link>
           </div>
 
           {/* Desktop links */}
           <ul className="hidden md:flex items-center gap-8 list-none m-0 p-0">
             {navLinks.map(link => (
               <li key={link.name}>
-                <a href={link.href} className="nav-link syne">{link.name}</a>
+                {renderLink(link, "nav-link syne")}
               </li>
             ))}
           </ul>
 
           {/* Right */}
           <div className="flex items-center gap-3">
-            <motion.a
-              href="#contact"
-              whileHover={{ scale: 1.04, y: -1 }}
-              whileTap={{ scale: 0.97 }}
-              className="hidden md:inline-flex items-center syne text-xs font-bold px-4 py-2 rounded-xl text-white"
-              style={{
-                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                boxShadow: "0 4px 16px rgba(99,102,241,0.3)",
-                textDecoration: "none",
-              }}>
-              Hire Me →
-            </motion.a>
+            <motion.div whileHover={{ scale: 1.04, y: -1 }} whileTap={{ scale: 0.97 }} className="hidden md:block">
+              <Link
+                to="/contact"
+                className="inline-flex items-center syne text-xs font-bold px-4 py-2 rounded-xl text-white"
+                style={{
+                  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                  boxShadow: "0 4px 16px rgba(99,102,241,0.3)",
+                  textDecoration: "none",
+                }}>
+                Hire Me →
+              </Link>
+            </motion.div>
 
             <button
               className="md:hidden w-9 h-9 flex items-center justify-center rounded-xl"
@@ -134,16 +158,12 @@ const Navbar = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.07 }}
                   >
-                    <a
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className="syne font-bold text-base block"
-                      style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}
-                      onMouseEnter={e => e.currentTarget.style.color = "#fff"}
-                      onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.6)"}
-                    >
-                      {link.name}
-                    </a>
+                    {renderLink(
+                      link,
+                      "syne font-bold text-base block",
+                      { color: "rgba(255,255,255,0.6)", textDecoration: "none" },
+                      () => setIsOpen(false)
+                    )}
                   </motion.li>
                 ))}
                 <motion.li
@@ -151,13 +171,13 @@ const Navbar = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.28 }}
                 >
-                  <a
-                    href="#contact"
+                  <Link
+                    to="/contact"
                     onClick={() => setIsOpen(false)}
                     className="syne inline-flex items-center font-bold text-sm px-5 py-2.5 rounded-xl text-white mt-1"
                     style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)", textDecoration: "none" }}>
                     Hire Me →
-                  </a>
+                  </Link>
                 </motion.li>
               </ul>
             </motion.div>

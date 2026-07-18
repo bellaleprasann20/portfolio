@@ -11,25 +11,35 @@ const SKILLS = [
   { name: "Node.js",     category: "Backend",   level: 75, color: "#68a063", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
   { name: "Express.js",  category: "Backend",   level: 75, color: "#ffffff", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" },
   { name: "MongoDB",     category: "Backend",   level: 72, color: "#47a248", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
-  { name: "REST APIs",   category: "Backend",   level: 78, color: "#ff6b35", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" },
+  // REST APIs isn't a single branded tool, so it now uses a neutral API/spec icon (Swagger)
+  // instead of the mismatched FastAPI logo.
+  { name: "REST APIs",   category: "Backend",   level: 78, color: "#85ea2d", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swagger/swagger-original.svg" },
+  // Currently learning — matches "(learning)" tags on the resume. Kept at a lower,
+  // honest level so it doesn't overstate where you actually are yet.
+  { name: "Python",      category: "Learning",  level: 45, color: "#3776ab", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+  { name: "FastAPI",     category: "Learning",  level: 35, color: "#009688", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" },
+  { name: "SQL",         category: "Learning",  level: 40, color: "#00758f", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+  { name: "AI / LLMs",   category: "Learning",  level: 30, color: "#8b5cf6", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/openai/openai-original.svg" },
   // Tools
   { name: "Git",         category: "Tools",     level: 80, color: "#f05032", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
   { name: "GitHub",      category: "Tools",     level: 82, color: "#ffffff", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
   { name: "VS Code",     category: "Tools",     level: 90, color: "#007acc", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" },
 ];
 
-const CATEGORIES = ["All", "Frontend", "Backend", "Tools"];
+const CATEGORIES = ["All", "Frontend", "Backend", "Learning", "Tools"];
 
 const getLevelLabel = (level) => {
   if (level >= 90) return "Expert";
   if (level >= 75) return "Advanced";
-  return "Intermediate";
+  if (level >= 50) return "Intermediate";
+  return "Beginner";
 };
 
 const getLevelColor = (level) => {
   if (level >= 90) return "#22c55e";
   if (level >= 75) return "#6366f1";
-  return "#f59e0b";
+  if (level >= 50) return "#f59e0b";
+  return "#94a3b8";
 };
 
 import { useState } from "react";
@@ -166,11 +176,11 @@ const Skills = () => {
                 </div>
               </div>
 
-              {/* Progress bar */}
+              {/* Progress bar — shows relative comfort level, no fabricated precise % displayed */}
               <div className="space-y-1.5">
                 <div className="flex justify-between items-center">
-                  <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.25)" }}>Proficiency</span>
-                  <span className="text-[10px] font-bold" style={{ color: skill.color }}>{skill.level}%</span>
+                  <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.25)" }}>Comfort level</span>
+                  <span className="text-[10px] font-bold" style={{ color: skill.color }}>{getLevelLabel(skill.level)}</span>
                 </div>
                 <div className="h-1.5 rounded-full overflow-hidden"
                   style={{ background: "rgba(255,255,255,0.06)" }}>
@@ -200,7 +210,7 @@ const Skills = () => {
           className="mt-14 text-center"
         >
           <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.3)" }}>
-            Always learning · Currently exploring TypeScript & Next.js
+            Always learning · Currently exploring Python & AI development
           </p>
           <a
             href="https://github.com/bellaleprasann20"

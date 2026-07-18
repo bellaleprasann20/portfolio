@@ -23,7 +23,9 @@ const projects = [
     image: p4,
     desc: "Real-time messaging platform with user authentication, instant group chats, and a fully responsive interface for mobile and desktop.",
     tech: ["React", "Node.js", "Socket.io", "MongoDB"],
-    github: "https://github.com/bellaleprasann20",
+    // NOTE: verify this matches your actual repo name/casing on GitHub before publishing —
+    // update if the repo is named differently.
+    github: "https://github.com/bellaleprasann20/Chat-App",
     live: "https://chat-app-eight-sand-86.vercel.app",
     accent: "#06b6d4",
     featured: false,
@@ -34,7 +36,8 @@ const projects = [
     image: p2,
     desc: "Full-stack food ordering application with cart management, restaurant listings, and payment integration.",
     tech: ["React", "Express.js", "Node.js", "MongoDB"],
-    github: "https://github.com/bellaleprasann20",
+    // NOTE: verify this matches your actual repo name/casing on GitHub before publishing.
+    github: "https://github.com/bellaleprasann20/Food-hub",
     live: "https://food-hub-seven-rho.vercel.app/",
     accent: "#f59e0b",
     featured: false,
@@ -45,6 +48,7 @@ const projects = [
     image: p1,
     desc: "Personal developer portfolio built with React, Tailwind CSS, and Framer Motion animations.",
     tech: ["React", "Tailwind CSS", "Framer Motion"],
+    // NOTE: point this at the actual portfolio repo once you know its name.
     github: "https://github.com/bellaleprasann20",
     live: "#home",
     accent: "#8b5cf6",

@@ -1,9 +1,14 @@
 import { motion } from "framer-motion";
+// IMPORTANT: replace src/assets/Prasann_resume.pdf with your newly updated resume
+// (export the docx we built as PDF, keep this exact filename, or update the path below).
 import resume from "../assets/Prasann_resume.pdf";
 import profilePic from "../assets/profileee.jpeg";
-import { Github, Linkedin, Mail, ArrowDown } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowDown, Eye, X } from "lucide-react";
+import { useState } from "react";
 
 const Hero = () => {
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -24,9 +29,12 @@ const Hero = () => {
     },
   };
 
+  // NOTE: adjust these to your real, verifiable numbers.
+  // "4+ Projects" matches what's actually shown in the Projects section below —
+  // update if your real deployed-project count differs.
   const stats = [
-    { value: "20+", label: "Projects" },
-    { value: "1+", label: "Year Exp." },
+    { value: "4+", label: "Projects" },
+    { value: "2025", label: "BCA Graduate" },
     { value: "5+", label: "Tech Stack" },
   ];
 
@@ -134,6 +142,8 @@ const Hero = () => {
               production-ready web apps
             </span>{" "}
             — from real-time chat systems to full preschool management platforms with payment integration.
+            Currently expanding into Python and applied AI development, and starting a Python
+            development internship at Labmentix.
           </motion.p>
 
           {/* Stats */}
@@ -160,6 +170,15 @@ const Hero = () => {
               }}>
               Download Resume ↓
             </motion.a>
+
+            <motion.button
+              onClick={() => setIsResumeOpen(true)}
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              className="syne font-bold px-7 py-3.5 rounded-xl text-sm glass flex items-center gap-2"
+              style={{ color: "rgba(255,255,255,0.8)" }}>
+              <Eye size={15} /> Preview Resume
+            </motion.button>
 
             <motion.a
               href="#contact"
@@ -265,6 +284,54 @@ const Hero = () => {
           <ArrowDown size={14} />
         </motion.div>
       </motion.div>
+      {/* Resume preview modal */}
+      {isResumeOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setIsResumeOpen(false)}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(8px)" }}
+        >
+          <motion.div
+            initial={{ scale: 0.92, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.92, opacity: 0 }}
+            transition={{ type: "spring", damping: 22 }}
+            onClick={e => e.stopPropagation()}
+            className="relative w-full max-w-3xl rounded-2xl overflow-hidden flex flex-col"
+            style={{ border: "1px solid rgba(255,255,255,0.1)", background: "#111827", height: "85vh" }}
+          >
+            <div className="flex items-center justify-between px-5 py-3"
+              style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+              <p className="syne font-bold text-white text-sm">Resume Preview</p>
+              <div className="flex items-center gap-2">
+                <a
+                  href={resume}
+                  download
+                  className="syne text-xs font-bold px-3 py-1.5 rounded-lg text-white"
+                  style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}>
+                  Download ↓
+                </a>
+                <button
+                  onClick={() => setIsResumeOpen(false)}
+                  aria-label="Close preview"
+                  className="w-8 h-8 flex items-center justify-center rounded-lg"
+                  style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.6)" }}>
+                  <X size={16} />
+                </button>
+              </div>
+            </div>
+            <iframe
+              src={resume}
+              title="Prasann Bellale Resume"
+              className="w-full flex-grow"
+              style={{ border: "none", background: "#fff" }}
+            />
+          </motion.div>
+        </motion.div>
+      )}
     </section>
   );
 };
