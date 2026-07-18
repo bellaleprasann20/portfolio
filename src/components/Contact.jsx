@@ -22,7 +22,7 @@ const Contact = () => {
       label: 'Location',
       value: 'Bidar, Karnataka, India',
       href: null,
-      accent: '#f59e0b',
+      accent: '#f59e0b', 
     },
   ];
 
