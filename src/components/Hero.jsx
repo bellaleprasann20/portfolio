@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import resume from "../assets/Prasann_resume.docx";
+import resume from "../assets/Prasann_resume.pdf";
 import profilePic from "../assets/profileee.jpeg";
 import { Github, Linkedin, Mail, ArrowDown } from "lucide-react";
 
