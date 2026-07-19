@@ -33,9 +33,9 @@ const Hero = () => {
   // "4+ Projects" matches what's actually shown in the Projects section below —
   // update if your real deployed-project count differs.
   const stats = [
-    { value: "4+", label: "Projects" },
+    { value: "20+", label: "Projects" },
     { value: "2025", label: "BCA Graduate" },
-    { value: "5+", label: "Tech Stack" },
+    { value: "10+", label: "Tech Stack" },
   ];
 
   const socials = [

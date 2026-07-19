@@ -6,9 +6,9 @@ import Certifications from '../components/Certifications';
 import Projects from '../components/Projects';
 import Contact from '../components/Contact';
 
-// Hero, Skills, Training, Certifications, and Projects each already render their
-// own <section id="..."> internally — no outer <section> wrapper needed here.
-// Wrapping them again would duplicate IDs and break anchor-link scrolling.
+// Hero, Skills, Training, Certifications, Projects, and Contact each already
+// render their own <section id="..."> internally — no outer wrapper needed.
+// Wrapping again duplicates IDs and breaks anchor-link scrolling.
 const Home = () => {
   return (
     <div className="flex flex-col w-full">
@@ -17,9 +17,7 @@ const Home = () => {
       <Training />
       <Certifications />
       <Projects />
-      <section id="contact">
-        <Contact />
-      </section>
+      <Contact />
     </div>
   );
 };
