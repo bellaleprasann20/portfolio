@@ -9,6 +9,21 @@ import { useState } from "react";
 const Hero = () => {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
 
+  // Most mobile browsers don't render PDFs inline via <iframe> — so on
+  // mobile, tapping "Preview Resume" opens it in a new tab instead of
+  // showing a blank modal.
+  const isMobile = () =>
+    typeof navigator !== "undefined" &&
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  const handlePreviewClick = () => {
+    if (isMobile()) {
+      window.open(resume, "_blank", "noopener,noreferrer");
+    } else {
+      setIsResumeOpen(true);
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -33,9 +48,9 @@ const Hero = () => {
   // "4+ Projects" matches what's actually shown in the Projects section below —
   // update if your real deployed-project count differs.
   const stats = [
-    { value: "20+", label: "Projects" },
+    { value: "4+", label: "Projects" },
     { value: "2025", label: "BCA Graduate" },
-    { value: "10+", label: "Tech Stack" },
+    { value: "5+", label: "Tech Stack" },
   ];
 
   const socials = [
@@ -172,7 +187,7 @@ const Hero = () => {
             </motion.a>
 
             <motion.button
-              onClick={() => setIsResumeOpen(true)}
+              onClick={handlePreviewClick}
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.97 }}
               className="syne font-bold px-7 py-3.5 rounded-xl text-sm glass flex items-center gap-2"
